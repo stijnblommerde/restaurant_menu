@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Add New Restaurant</h1>
+<form action="{{ url_for('create_restaurant') }}" method="post">
+    <input type="text" name="restaurant_name"/>
+    <input type="submit" value="add"/>
+</form>
+<a href="{{ url_for('display_restaurants') }}">Cancel</a>
+{% endblock %}

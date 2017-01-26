@@ -13,7 +13,6 @@ if os.environ.get('FLASKY_COVERAGE'):
     COV = coverage.coverage(branch=True, include='app/*')
     COV.start()
 
-# app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 app = create_app(os.getenv('FLASKY_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)

@@ -1,0 +1,13 @@
+.idea/
+__pycache__/
+app/__init__.pyc
+app/auth/__init__.pyc
+app/auth/forms.pyc
+app/auth/views.pyc
+app/main/__init__.pyc
+app/main/errors.pyc
+app/main/views.pyc
+app/models.pyc
+config.pyc
+data-dev.sqlite
+env/

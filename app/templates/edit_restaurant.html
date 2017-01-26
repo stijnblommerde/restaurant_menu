@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Rename Restaurant</h1>
+<form action="{{ url_for('edit_restaurant', restaurant_id=restaurant.id) }}" method="post">
+    <input type="text" name='edit' placeholder="{{ restaurant.name }}"/>
+    <input type="submit" value="Rename"/>
+</form>
+<a href="{{ url_for('display_restaurants') }}">Cancel</a>
+{% endblock %}

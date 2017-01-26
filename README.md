@@ -1,1 +1,1 @@
-# flask_project_template
+# restaurant_menu

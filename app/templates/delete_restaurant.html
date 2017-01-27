@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Delete Restaurant</h1>
+
+    <form action="{{ url_for('main.delete_restaurant', restaurant_id=restaurant.id) }}" method="post">
+        <div class="form-group">
+            Are you sure you you want to delete {{ restaurant.name }}?
+        </div>
+        <div class="form-group">
+            <button type="submit" name="delete" class="btn btn-default">Delete</button>
+            <a href="{{ url_for('main.display_restaurants') }}" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

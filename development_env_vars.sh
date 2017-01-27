@@ -1,5 +1,0 @@
-export MAIL_SENDER='stijnblommerde@gmail.com'
-export MAIL_USERNAME='stijnblommerde'
-export MAIL_PASSWORD='JohnLaw41'
-export MAIL_TO='stijnblommerde@gmail.com'
-export RESTAURANT_MENUS_ADMIN='stijnblommerde@gmail.com'

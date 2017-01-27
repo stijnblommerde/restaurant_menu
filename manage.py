@@ -7,13 +7,13 @@ from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 
 COV = None
-if os.environ.get('FLASKY_COVERAGE'):
+if os.environ.get('MENU_COVERAGE'):
     import coverage
     # start coverage engine
     COV = coverage.coverage(branch=True, include='app/*')
     COV.start()
 
-app = create_app(os.getenv('FLASKY_CONFIG') or 'default')
+app = create_app(os.getenv('MENU_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 server = Server(host="0.0.0.0", port=5000)
@@ -34,7 +34,7 @@ manager.add_command("runserver", server)
 @manager.command
 def test(coverage=False):
     """Run the unit tests"""
-    if coverage and not os.environ.get('FLASKY_COVERAGE'):
+    if coverage and not os.environ.get('MENU_COVERAGE'):
         import sys
         os.environ['FLASKY_COVERAGE'] = '1'
         # restart module from top

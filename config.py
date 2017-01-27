@@ -12,14 +12,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    RESTAURANT_MENUS_ADMIN = os.environ.get('RESTAURANT_MENUS_ADMIN')
+    MENU_ADMIN = os.environ.get('MENU_ADMIN')
+
     @staticmethod
     def init_app(app):
         pass
 
 
 class DevelopmentConfig(Config):
-    MAIL_SUBJECT_PREFIX = '[Restaurant Menus App]'
+    MAIL_SUBJECT_PREFIX = '[Menu App]'
     MAIL_SENDER = os.environ.get('MAIL_SENDER')
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587

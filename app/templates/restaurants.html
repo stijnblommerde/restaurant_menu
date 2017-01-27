@@ -3,8 +3,10 @@
 <div class="container">
     <h1>
         Restaurants
+        {% if current_user.is_administrator %}
         <a class="btn btn-default btn-sm"
            href="{{ url_for('main.create_restaurant') }}">New</a>
+        {% endif %}
     </h1>
 
     <div>
@@ -14,8 +16,10 @@
             <li class="list-group-item">
                 <a href="{{url_for('main.display_restaurant_menu', restaurant_id=restaurant.id)}}">
                     <h3>{{restaurant.name}}</h3></a>
+                {% if current_user.is_administrator %}
                 <a href="{{ url_for('main.edit_restaurant', restaurant_id=restaurant.id) }}">Edit</a>
                 <a href="{{ url_for('main.delete_restaurant', restaurant_id=restaurant.id) }}">Delete</a>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>

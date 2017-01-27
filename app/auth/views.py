@@ -68,6 +68,9 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
+        print('mail_to:', current_app.config.get('MAIL_TO') or user.email)
+        print('user:', user)
+        print('token:', token)
         send_email(current_app.config.get('MAIL_TO') or user.email,
                    'Confirm Your Account',
                    'auth/email/confirm',
@@ -109,6 +112,7 @@ def update_password():
         if current_user.verify_password(form.old_password.data):
             current_user.password = form.new_password.data
             db.session.add(current_user)
+            print('before flash message')
             flash('Password has been updated.')
             return redirect(url_for('main.display_restaurants'))
         else:

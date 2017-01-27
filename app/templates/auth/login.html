@@ -10,6 +10,7 @@
     <h1>Login</h1>
 </div>
 {{ wtf.quick_form(form) }}
+<br>
 <p>New user?
     <!--url_for points to [blueprint].[view function]-->
     <a href="{{ url_for('auth.register') }}">register</a>
@@ -19,5 +20,5 @@
     <!--url_for points to [blueprint].[view function]-->
     <a href="{{ url_for('auth.password_reset_request') }}">Reset</a>
     Click here to reset password
-
+</p>
 {% endblock %}

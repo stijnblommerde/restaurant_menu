@@ -25,3 +25,9 @@ Menu app created with Flask. Lists out restaurants and allows to view the menu f
 * Flash messages.
 
 **Installation**
+* add virtual environment: virtualenv -p python3 venv
+* install requirements: pip install -r requirements.txt
+* create database: python manage.py upgrade
+* create roles: python manage.py shell > Role.insert_roles()
+* run server: python manage.py runserver
+* visit url: localhost:5000

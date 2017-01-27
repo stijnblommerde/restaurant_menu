@@ -1,16 +1,18 @@
-from flask import render_template, request, redirect, url_for, jsonify, flash
+from flask import render_template, request, redirect, url_for, jsonify, flash, \
+    abort
 from flask_httpauth import HTTPBasicAuth
+from flask_login import login_required, current_user
 
 from . import main
+from .forms import EditProfileForm
 from .. import db
-from ..models import Restaurant, MenuItem
-
+from ..models import Restaurant, MenuItem, User
 auth = HTTPBasicAuth()
 
 
 @main.route('/')
 @main.route('/restaurants/')
-@auth.login_required
+@login_required
 def display_restaurants():
     """
     Display a list of all restaurants
@@ -32,7 +34,7 @@ def create_restaurant():
         db.session.add(restaurant)
         db.session.commit()
         flash('New Restaurant Created')
-        return redirect(url_for('display_restaurants'))
+        return redirect(url_for('main.display_restaurants'))
     else:
         return render_template('create_restaurant.html')
 
@@ -49,7 +51,7 @@ def edit_restaurant(restaurant_id):
         db.session.query(Restaurant).filter_by(id=restaurant_id).update({Restaurant.name: request.form['edit']})
         db.session.commit()
         flash('Restaurant Succesfully Edited')
-        return redirect(url_for('display_restaurants'))
+        return redirect(url_for('main.display_restaurants'))
     else:
         restaurant = db.session.query(Restaurant).filter_by(id=restaurant_id).first()
         return render_template('edit_restaurant.html', restaurant=restaurant)
@@ -66,7 +68,7 @@ def delete_restaurant(restaurant_id):
         db.session.query(Restaurant).filter_by(id=restaurant_id).delete()
         db.session.commit()
         flash('Restaurant Successfully Deleted')
-        return redirect(url_for('display_restaurants'))
+        return redirect(url_for('main.display_restaurants'))
     else:
         restaurant = db.session.query(Restaurant).filter_by(id=restaurant_id).first()
         return render_template('delete_restaurant.html', restaurant=restaurant)
@@ -100,7 +102,7 @@ def create_menu_item(restaurant_id):
         db.session.add(menu_item)
         db.session.commit()
         flash('Menu Item Created')
-        return redirect(url_for('display_restaurant_menu', restaurant_id=restaurant_id))
+        return redirect(url_for('main.display_restaurant_menu', restaurant_id=restaurant_id))
     else:
         return render_template('create_menu_item.html', restaurant_id=restaurant_id)
 
@@ -117,7 +119,7 @@ def edit_menu_item(restaurant_id, menu_item_id):
         db.session.query(MenuItem).filter_by(id=menu_item_id).update({MenuItem.name: request.form['menu_item_name']})
         db.session.commit()
         flash('Menu Item Successfully Edited')
-        return redirect(url_for('display_restaurant_menu', restaurant_id=restaurant_id))
+        return redirect(url_for('main.display_restaurant_menu', restaurant_id=restaurant_id))
     else:
         menu_item = db.session.query(MenuItem).filter_by(id=menu_item_id).first()
         return render_template('edit_menu_item.html', restaurant_id=restaurant_id, menu_item=menu_item)
@@ -135,7 +137,7 @@ def delete_menu_item(restaurant_id, menu_item_id):
         db.session.query(MenuItem).filter_by(id=menu_item_id).delete()
         db.session.commit()
         flash('Menu Item Successfully Deleted')
-        return redirect(url_for('display_restaurant_menu', restaurant_id=restaurant_id))
+        return redirect(url_for('main.display_restaurant_menu', restaurant_id=restaurant_id))
     else:
         menu_item = db.session.query(MenuItem).filter_by(id=menu_item_id).first()
         return render_template('delete_menu_item.html', restaurant_id=restaurant_id, menu_item=menu_item)
@@ -175,3 +177,29 @@ def restaurant_menu_item_json(restaurant_id, menu_item_id):
         return jsonify(menu_item=menu_item.serialize)
     else:
         return "Menu item does not exist. JSON not available"
+
+
+@main.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    return render_template('user.html', user=user)
+
+
+@main.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.location = form.location.data
+        current_user.about_me = form.about_me.data
+        db.session.add(current_user)
+        flash('Your profile has been updated')
+        return redirect(url_for('main.user', username=current_user.username))
+    # input velden invullen met data opgeslagen in session
+    form.name.data = current_user.name
+    form.location.data = current_user.location
+    form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', form=form)

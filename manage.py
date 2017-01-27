@@ -16,7 +16,7 @@ if os.environ.get('FLASKY_COVERAGE'):
 app = create_app(os.getenv('FLASKY_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
-server = Server(host="0.0.0.0", port=8080)
+server = Server(host="0.0.0.0", port=5000)
 
 
 def make_shell_context():

@@ -12,45 +12,59 @@
 
     <div>
         {% if menu_items %}
-
         <h2>Appetizers</h2>
-            <ul class="list-group">
+        <ul class="list-group">
             {% for item in menu_items %}
-                <li class="list-group-item">
-                {% if item.course.lower() == "appetizer" %}
+            {% if item.course.lower() == "appetizer" %}
+            <li class="list-group-item">
                 {{ macros.build_item(item, restaurant_id, current_user) }}
-                {% endif %}
-                </li>
+            </li>
+            {% endif %}
             {% endfor %}
-            </ul>
+        </ul>
 
         <h2>Entrees</h2>
-        {% for item in menu_items %}
-        {% if item.course.lower() == "entree" %}
-        {{ macros.build_item(item, restaurant_id) }}
-        {% endif %}
-        {% endfor %}
+        <ul class="list-group">
+            {% for item in menu_items %}
+            {% if item.course.lower() == "entree" %}
+            <li class="list-group-item">
+                {{ macros.build_item(item, restaurant_id, current_user) }}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
 
         <h2>Main</h2>
-        {% for item in menu_items %}
-        {% if item.course.lower() == "main" %}
-        {{ macros.build_item(item, restaurant_id) }}
-        {% endif %}
-        {% endfor %}
+        <ul class="list-group">
+            {% for item in menu_items %}
+            {% if item.course.lower() == "main" %}
+            <li class="list-group-item">
+                {{ macros.build_item(item, restaurant_id, current_user) }}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
 
         <h2>Desserts</h2>
-        {% for item in menu_items %}
-        {% if item.course.lower() == "dessert" %}
-        {{ macros.build_item(item, restaurant_id) }}
-        {% endif %}
-        {% endfor %}
+        <ul class="list-group">
+            {% for item in menu_items %}
+            {% if item.course.lower() == "dessert" %}
+            <li class="list-group-item">
+                {{ macros.build_item(item, restaurant_id, current_user) }}
+            </li>
+            {% endif %}
+            {% endfor %}
 
-        <h2>Beverages</h2>
-        {% for item in menu_items %}
-        {% if item.course.lower() == "beverage" %}
-        {{ macros.build_item(item, restaurant_id) }}
-        {% endif %}
-        {% endfor %}
+            <h2>Beverages</h2>
+            <ul class="list-group">
+                {% for item in menu_items %}
+                {% if item.course.lower() == "beverage" %}
+                <li class="list-group-item">
+                    {{ macros.build_item(item, restaurant_id, current_user) }}
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
 
         {% else %}
         <p>Menu has no menu items yet!</p>

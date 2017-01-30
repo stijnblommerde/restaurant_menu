@@ -1,14 +1,12 @@
 from flask import render_template, request, redirect, url_for, jsonify, flash, \
     abort
-from flask_httpauth import HTTPBasicAuth
 from flask_login import login_required, current_user
 
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm
 from app.decorators import admin_required, permission_required
 from .. import db
-from ..models import Restaurant, MenuItem, User
-auth = HTTPBasicAuth()
+from ..models import Restaurant, MenuItem, User, Role
 
 
 @main.route('/')
@@ -106,7 +104,7 @@ def create_menu_item(restaurant_id):
         flash('Menu Item Created')
         return redirect(url_for('main.display_restaurant_menu', restaurant_id=restaurant_id))
     else:
-        return render_template('create_menu_item.html', restaurant_id=restaurant_id)
+        return render_template('add_menu_item.html', restaurant_id=restaurant_id)
 
 
 @main.route('/restaurant/<int:restaurant_id>/menu/<int:menu_item_id>/edit/', methods=['GET', 'POST'])

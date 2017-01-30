@@ -1,12 +1,12 @@
 import hashlib
 from datetime import datetime
 
-from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, request
 from flask_login import UserMixin, AnonymousUserMixin
-from . import login_manager
-from . import db
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from . import login_manager, db
 
 
 class Permission:
@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
-            if self.email == current_app.config['RESTAURANT_MENUS_ADMIN']:
+            if self.email == current_app.config['MENU_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
             else:
                 self.role = Role.query.filter_by(default=True).first()
@@ -135,9 +135,12 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
+    default = db.Column(db.Boolean, default=False, index=True)
     users = db.relationship('User', backref='role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
     @staticmethod
     def insert_roles():
@@ -155,9 +158,6 @@ class Role(db.Model):
             role.default = roles[r][1]
             db.session.add(role)
         db.session.commit()
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
 
 
 class Restaurant(db.Model):
@@ -183,7 +183,7 @@ class MenuItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course = db.Column(db.String(250))
     description = db.Column(db.String(250))
-    price = db.Column(db.BigInteger())
+    price = db.Column(db.String(10))
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))
     restaurant = db.relationship(Restaurant)
 
@@ -196,3 +196,5 @@ class MenuItem(db.Model):
             'price': self.price,
             'course': self.course
         }
+
+

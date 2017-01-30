@@ -33,5 +33,6 @@ Menu app created with Flask. Lists out restaurants and allows to view the menu f
 * create first migration: python manage.py db migrate -m 'first migration'
 * create tables: python manage.py upgrade
 * create roles: python manage.py shell, Role.insert_roles()
+* create restaurants & menu items (fake data): python create_data.py
 * run server: python manage.py runserver
 * visit url: localhost:5000

@@ -2,7 +2,6 @@
 {% block content %}
 <div class="container">
     <h1>Delete Restaurant</h1>
-
     <form action="{{ url_for('main.delete_restaurant', restaurant_id=restaurant.id) }}" method="post">
         <div class="form-group">
             Are you sure you you want to delete {{ restaurant.name }}?

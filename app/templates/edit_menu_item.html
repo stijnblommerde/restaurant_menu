@@ -5,11 +5,13 @@
     <form action="{{ url_for('main.edit_menu_item', restaurant_id=restaurant_id, menu_item_id=menu_item.id) }}" method="post">
         <div class="form-group">
             <label>Name:</label>
-            <div class="form-group">
+            <input type="text" name="menu_item_name" placeholder="{{ menu_item.name }}" class="form-control"/>
         </div>
-                <input type="text" name="menu_item_name" placeholder="{{ menu_item.name }}"/>
-        <input type="submit" value="Edit"/>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Edit</button>
+            <a href="{{ url_for('main.display_restaurant_menu', restaurant_id=restaurant_id) }}" class="btn btn-default">Cancel</a>
+        </div>
     </form>
-    <a href="{{ url_for('main.display_restaurant_menu', restaurant_id=restaurant_id) }}">Cancel</a>
+
 </div>
 {% endblock %}

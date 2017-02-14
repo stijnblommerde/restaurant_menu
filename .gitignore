@@ -11,4 +11,4 @@ app/models.pyc
 config.pyc
 data-dev.sqlite
 env/
-development_env_vars.sh
+vars.sh

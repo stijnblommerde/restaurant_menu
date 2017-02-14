@@ -8,7 +8,6 @@ from .forms import EditProfileForm, EditProfileAdminForm
 from app.decorators import admin_required, permission_required
 from .. import db
 from ..models import Restaurant, MenuItem, User
-auth = HTTPBasicAuth()
 
 
 @main.route('/')
